@@ -32,6 +32,17 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Framework
+gem 'simple_form'
+gem "quiet_assets"
+gem "bootstrap-sass"
+gem "font-awesome-rails"
+
+# Tracking
+gem 'geocoder'
+gem 'gmaps4rails'
+gem 'underscore-rails'
+
 group :development, :test do
   gem "interactive_editor"
   gem "awesome_print"

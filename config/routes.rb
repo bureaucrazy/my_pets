@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  resources :destinations
+  resources :locations
+  resources :pets
+  resources :users, only: [:new, :create] do
+    get :edit, on: :collection
+    patch :update, on: :collection
+  end
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+
+  get 'welcome/index'
+  root 'welcome#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -4,16 +4,32 @@ class PetsController < ApplicationController
   # GET /pets
   # GET /pets.json
   def index
-    @pets = Pet.all
+    @pets = Pet.all.order("first_name")
+    @specie = {bird: "bird_logo",
+               cat: "cat_logo",
+               dog: "dog_logo",
+               fish: "fish_logo",
+               frog: "frog_logo",
+               monkey: "monkey_logo",
+               rabbit: "rabbit_logo",
+               snail: "snail_logo",
+               snake: "snake_logo",
+               turtle: "turtle_logo"
+              }
   end
 
   # GET /pets/1
   # GET /pets/1.json
   def show
+    # Gets last 10 entries today, otherwise the last 10 from all.
+    pet_travels = @pet.locations.where("time > ?", Date.yesterday).limit(10)
+    pet_travels = @pet.locations.last(10) unless pet_travels.count > 0
+    pet_travels = @pet.locations.order("created_at")
     @loc_array = []
-    @pet.locations.order("created_at").limit(10).each do |loc|
+    pet_travels.each do |loc|
       friendly_time = loc.time.strftime("%A, %r")
-      @loc_array << { lat: loc.latitude, lng: loc.longitude, name: friendly_time, infowindow: friendly_time }
+      detailed_time = loc.time.strftime("%x, %r")
+      @loc_array << { lat: loc.latitude, lng: loc.longitude, name: friendly_time, infowindow: detailed_time }
     end
   end
 
@@ -75,6 +91,7 @@ class PetsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def pet_params
       # params.require(:pet).permit(:first_name, :last_name, :birth_place, :birth_date, :breed, :tracking_uid, :user_id)
-      params.require(:pet).permit(:first_name, :last_name, :birth_place, :birth_date, :breed, :tracking_uid)
+      params.require(:pet).permit(:first_name, :last_name, :birth_place,
+                                  :birth_date, :specie, :breed, :tracking_uid)
     end
 end

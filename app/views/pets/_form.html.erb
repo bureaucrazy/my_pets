@@ -1,11 +1,20 @@
 <%= simple_form_for(@pet) do |f| %>
   <div class="form-inputs">
-    <%= f.input :first_name %>
-    <%= f.input :last_name %>
-    <%= f.input :birth_place %>
-    <%= f.input :birth_date, as: :date %>
-    <%= f.input :breed %>
-    <%= f.input :tracking_uid %>
+    <div class="col-md-6"><%= f.input :first_name %></div>
+    <div class="col-md-6"><%= f.input :last_name %></div>
+    <div class="col-md-6"><%= f.input :birth_place %></div>
+    <div class="col-md-6"><%= f.input :birth_date, as: :string %></div>
+    <div class="col-md-6">
+      <%= f.input :specie,
+                  collection: ["Bird", "Cat", "Dog", "Fish",
+                               "Frog", "Monkey", "Rabbit",
+                               "Snail", "Snake", "Turtle"],
+                  prompt: "Select pet type.", selected: @pet.specie %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :breed %>
+    </div>
+    <div class="col-md-12"><%= f.input :tracking_uid %></div>
   </div>
 
   <div class="form-actions">
@@ -13,3 +22,13 @@
     <%= f.button :button, 'Cancel', { :type => 'reset', :class=>"btn btn-default" } %>
   </div>
 <% end %>
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#pet_birth_date').datepicker({
+            format: "MM dd, yyyy"
+        });
+
+    });
+</script>

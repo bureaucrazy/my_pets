@@ -43,6 +43,9 @@ gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 
+# FX
+gem "animate-rails"
+
 group :development, :test do
   gem "interactive_editor"
   gem "awesome_print"

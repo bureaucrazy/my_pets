@@ -1,39 +1,30 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Listing Pets</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Birth place</th>
-      <th>Birth date</th>
-      <th>Breed</th>
-      <th>Tracking uid</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @pets.each do |pet| %>
-      <tr>
-        <td><%= pet.first_name %></td>
-        <td><%= pet.last_name %></td>
-        <td><%= pet.birth_place %></td>
-        <td><%= pet.birth_date %></td>
-        <td><%= pet.breed %></td>
-        <td><%= pet.tracking_uid %></td>
-        <td><%= pet.user %></td>
-        <td><%= link_to 'Show', pet %></td>
-        <td><%= link_to 'Edit', edit_pet_path(pet) %></td>
-        <td><%= link_to 'Destroy', pet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="container-fluid">
+  <% @pets.each do |pet| %>
+    <div class="col-sm-12 col-md-6">
+      <div class="thumbnail">
+        <%= image_tag @specie[:"#{pet.specie.downcase}"] %>
+        <div class="caption">
+          <h4><%= pet.full_name %></h4>
+          <p>
+            a <%= pet_age(pet.birth_date) %> <%= pet.breed %> <%= pet.specie %>
+          </p>
+          <p>
+            <strong>Last Seen: </strong>
+            <%= where_am_i_now(pet) %>
+          </p>
+          <p>
+            <td><%= link_to "#{fa_icon('map-o lg')} Find".html_safe, pet, class: "btn btn-default" %></td>
+            <td><%= link_to "#{fa_icon('edit lg')} Edit".html_safe, edit_pet_path(pet), class: "btn btn-default" %></td>
+            <td><%= link_to 'Dismiss', pet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default" %></td>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="col-sm-12">
+    <%= link_to 'Add Pet', new_pet_path, class: "btn btn-default btn-lg btn-block" %>
+  </div>
+</div>
 
 <br>
-
-<%= link_to 'New Pet', new_pet_path %>

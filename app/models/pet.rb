@@ -9,6 +9,10 @@ class Pet < ActiveRecord::Base
 
   after_initialize :set_defaults
 
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+
   private
 
   def set_defaults

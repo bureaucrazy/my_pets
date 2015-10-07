@@ -10,8 +10,8 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to root_path, notice: "Signed in successfully!"
     else
-      flash[:alert] = "Wrong credentials!"
-      render :new
+      # redirect_to root_path
+      redirect_to :back
     end
   end
 

@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+["Happy", "Sad", "Proud", "Adventurous", "Missing", "Deceased"].each do |s|
+  Status.create(name: s)
+end

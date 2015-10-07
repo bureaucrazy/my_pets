@@ -4,7 +4,6 @@ class PetsController < ApplicationController
   # GET /pets
   # GET /pets.json
   def index
-    @pets = Pet.all.order("first_name")
     @specie = {bird: "bird_logo",
                cat: "cat_logo",
                dog: "dog_logo",
@@ -16,11 +15,29 @@ class PetsController < ApplicationController
                snake: "snake_logo",
                turtle: "turtle_logo"
               }
+    if params[:show_my_pets]
+      @pets = Pet.where("user_id = ?", current_user.id).order("first_name")
+    elsif params[:show_missing]
+      @pets = Pet.where("status_id = ?", Status.find_by(name: "Missing").id)
+    else
+      @pets = Pet.all.order("first_name")
+    end
   end
 
   # GET /pets/1
   # GET /pets/1.json
   def show
+    @specie = {bird: "bird_logo",
+               cat: "cat_logo",
+               dog: "dog_logo",
+               fish: "fish_logo",
+               frog: "frog_logo",
+               monkey: "monkey_logo",
+               rabbit: "rabbit_logo",
+               snail: "snail_logo",
+               snake: "snake_logo",
+               turtle: "turtle_logo"
+             }
     # Gets last 10 entries today, otherwise the last 10 from all.
     pet_travels = @pet.locations.where("time > ?", Date.yesterday).limit(10)
     pet_travels = @pet.locations.last(10) unless pet_travels.count > 0
@@ -30,6 +47,9 @@ class PetsController < ApplicationController
       friendly_time = loc.time.strftime("%A, %r")
       detailed_time = loc.time.strftime("%x, %r")
       @loc_array << { lat: loc.latitude, lng: loc.longitude, name: friendly_time, infowindow: detailed_time }
+    end
+    if params[:missing_helper]
+      render :missing
     end
   end
 
@@ -46,7 +66,7 @@ class PetsController < ApplicationController
   # POST /pets.json
   def create
     @pet = Pet.new(pet_params)
-
+    @pet.user = current_user
     respond_to do |format|
       if @pet.save
         format.html { redirect_to @pet, notice: 'Pet was successfully created.' }
@@ -61,6 +81,7 @@ class PetsController < ApplicationController
   # PATCH/PUT /pets/1
   # PATCH/PUT /pets/1.json
   def update
+    @pet.user = current_user
     respond_to do |format|
       if @pet.update(pet_params)
         format.html { redirect_to @pet, notice: 'Pet was successfully updated.' }
@@ -75,9 +96,10 @@ class PetsController < ApplicationController
   # DELETE /pets/1
   # DELETE /pets/1.json
   def destroy
+    name = @pet.full_name
     @pet.destroy
     respond_to do |format|
-      format.html { redirect_to pets_url, notice: 'Pet was successfully destroyed.' }
+      format.html { redirect_to pets_url, notice: "Good bye #{name}." }
       format.json { head :no_content }
     end
   end
@@ -92,6 +114,7 @@ class PetsController < ApplicationController
     def pet_params
       # params.require(:pet).permit(:first_name, :last_name, :birth_place, :birth_date, :breed, :tracking_uid, :user_id)
       params.require(:pet).permit(:first_name, :last_name, :birth_place,
-                                  :birth_date, :specie, :breed, :tracking_uid)
+                                  :birth_date, :specie, :breed, :tracking_uid,
+                                  :status_id, :user_id)
     end
 end

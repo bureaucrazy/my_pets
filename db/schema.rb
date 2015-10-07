@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151007023418) do
+ActiveRecord::Schema.define(version: 20151007123210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,11 +50,19 @@ ActiveRecord::Schema.define(version: 20151007023418) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "specie"
+    t.integer  "status_id"
   end
 
   add_index "pets", ["first_name"], name: "index_pets_on_first_name", using: :btree
+  add_index "pets", ["status_id"], name: "index_pets_on_status_id", using: :btree
   add_index "pets", ["tracking_uid"], name: "index_pets_on_tracking_uid", using: :btree
   add_index "pets", ["user_id"], name: "index_pets_on_user_id", using: :btree
+
+  create_table "statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -74,5 +82,6 @@ ActiveRecord::Schema.define(version: 20151007023418) do
 
   add_foreign_key "destinations", "pets"
   add_foreign_key "locations", "pets"
+  add_foreign_key "pets", "statuses"
   add_foreign_key "pets", "users"
 end

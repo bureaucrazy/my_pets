@@ -1,5 +1,6 @@
 class Pet < ActiveRecord::Base
   belongs_to :user
+  belongs_to :status
 
   has_many :locations, dependent: :destroy
   has_many :destinations, dependent: :destroy
@@ -12,6 +13,8 @@ class Pet < ActiveRecord::Base
   def full_name
     "#{first_name} #{last_name}".strip
   end
+
+  delegate :name, to: :status, prefix: true
 
   private
 

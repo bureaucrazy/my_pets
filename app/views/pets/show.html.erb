@@ -2,12 +2,15 @@
 
 <div class="container col-md-4">
   <p><strong>Name: </strong><%= @pet.first_name %></p>
-  <p><strong>Birthday: </strong><%= @pet.birth_date.to_date %></p>
+  <p><strong>Birthday: </strong><%= pet_birthday(@pet.birth_date) %></p>
+  <p><strong>Status: </strong><%= @pet.status.name %></p>
   <p>
     <strong>Last Seen: </strong><%= where_am_i_now(@pet) %>
   </p>
 
-  <%= link_to 'Edit', edit_pet_path(@pet), class: "btn btn-default" %> |
+  <% unless @pet.status.name.downcase == "deceased" %>
+    <%= link_to 'Edit', edit_pet_path(@pet), class: "btn btn-default" %>
+  <% end %>
   <%= link_to 'Back', pets_path, class: "btn btn-default" %>
 </div>
 

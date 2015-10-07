@@ -1,0 +1,50 @@
+<div class="col-sm-12">
+  <div class="thumbnail col-sm-12">
+
+    <div class="col-sm-12 text-center">
+      <h1>Missing <%= @pet.specie %></h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <%= image_tag @specie[:"#{@pet.specie.downcase}"], class: "center-block" %>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <div class="col-sm-12 text-justify">
+      <h4>
+        <%= @pet.full_name %> is a <%= pet_age(@pet.birth_date) %> <%= @pet.breed %> <%= @pet.specie %>.
+        <br><br>
+        Last seen near <%= where_am_i_now(@pet) %>
+        <br><br>
+        Please call us if you have any information about our <%= @pet.full_name %>.
+        <h3>
+          Day or night, we can be reached at:
+          <br><br>
+          <%= fa_icon("home lg") %> Home: <%= @pet.user.home_phone %>
+          <br>
+          <%= fa_icon("mobile lg") %> Mobile: <%= @pet.user.cell_phone %>.
+        </h3>
+      </h4>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="letterP4">
+        <hr>
+        <%= 9.times do %>
+        <h6>
+          Missing <%= @pet.full_name %> a <%= @pet.specie %>
+          <br>
+          Please call <%= @pet.user.first_name %>
+          <br>
+          <%= fa_icon("home") %>: <%= @pet.user.home_phone %>
+          <br>
+          <%= fa_icon("mobile") %>: <%= @pet.user.cell_phone %>
+        </h6>
+        <hr>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,20 +19,20 @@
         Last seen near <%= where_am_i_now(@pet) %>
         <br><br>
         Please call us if you have any information about our <%= @pet.full_name %>.
-        <h3>
+        <h5>
           Day or night, we can be reached at:
           <br><br>
           <%= fa_icon("home lg") %> Home: <%= @pet.user.home_phone %>
           <br>
-          <%= fa_icon("mobile lg") %> Mobile: <%= @pet.user.cell_phone %>.
-        </h3>
+          <%= fa_icon("mobile lg") %> Mobile: <%= @pet.user.cell_phone %>
+        </h5>
       </h4>
     </div>
     <hr>
     <div class="row">
       <div class="letterP4">
         <hr>
-        <%= 9.times do %>
+        <%= 8.times do %>
         <h6>
           Missing <%= @pet.full_name %> a <%= @pet.specie %>
           <br>

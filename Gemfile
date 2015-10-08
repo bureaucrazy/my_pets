@@ -46,6 +46,9 @@ gem 'underscore-rails'
 # FX
 gem "animate-rails"
 
+# for heroku
+gem "rails_12factor", group: :production
+
 group :development, :test do
   gem "interactive_editor"
   gem "awesome_print"

@@ -1,0 +1,89 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="container-fluid">
+    <%= link_to 'Add Pet',
+      current_user ? new_pet_path : new_user_path,
+      class: "btn btn-default btn-lg btn-block" %>
+  </div>
+  <br>
+  <% @pets.each do |pet| %>
+    <div class="col-sm-12">
+      <div class="thumbnail col-sm-12">
+
+        <div class="col-sm-6 col-md-3">
+          <%= image_tag @specie[:"#{pet.specie.downcase}"], class: "pet_logo img-responsive" %>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <% if pet.status.name.downcase == "missing" %>
+            <a href=<%= pet_path(pet.id, missing_helper: true) %>>
+            <h4><span class="label label-warning">
+              <%= "#{fa_icon('warning lg')} Missing".html_safe %>
+            </span></h4>
+            </a>
+          <% end %>
+          <% if pet.status.name.downcase == "deceased" %>
+            <h4><span class="label label-default">
+              <%= "#{fa_icon('frown-o lg')} Deceased".html_safe %>
+            </span></h4>
+          <% end %>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+          <div class="caption">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id=<%= "headingOne#{pet.id}" %>>
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse"
+                      data-parent="#accordion" aria-expanded="false"
+                      href=<%= "#collapseOne#{pet.id}" %>
+                      aria-controls=<%= "collapseOne#{pet.id}" %>>
+                      <h4><%= pet.full_name %></h4>
+                    </a>
+                  </h4>
+                </div>
+                <div id=<%= "collapseOne#{pet.id}" %>
+                  class="panel-collapse collapse in"
+                  role="tabpanel" aria-labelledby=<%= "headingOne#{pet.id}" %>>
+                  <div class="panel-body">
+                    <p>
+                      a <%= pet_age(pet.birth_date) %> <%= pet.breed %> <%= pet.specie %>,
+                      belonging to <%= pet.user.full_name %>.
+                    </p>
+                    <p>
+                      <strong>Last Seen: </strong>
+                      <%= where_am_i_now(pet) %>
+                    </p>
+                    <p>
+                      <% if current_user && current_user.id == pet.user_id %>
+                        <%= link_to "#{fa_icon('map-o lg')} Find".html_safe,
+                          pet,
+                          class: "btn btn-default" %>
+                        <% unless pet.status.name.downcase == "deceased" %>
+                          <%= link_to "#{fa_icon('edit lg')} Edit".html_safe,
+                            edit_pet_path(pet),
+                            class: "btn btn-default" %>
+                          <%= link_to 'Dismiss',
+                                pet, method: :delete,
+                            data: { confirm: 'Really say good bye?' },
+                            class: "btn btn-default" %>
+                        <% end %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- <script type="text/javascript">
+    $(document).ready(function () {
+      $('.collapse').collapse();
+    });
+</script> -->

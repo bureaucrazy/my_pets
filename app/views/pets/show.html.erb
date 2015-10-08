@@ -1,0 +1,62 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container col-md-4">
+  <p><strong>Name: </strong><%= @pet.first_name %></p>
+  <p><strong>Birthday: </strong><%= pet_birthday(@pet.birth_date) %></p>
+  <p><strong>Status: </strong><%= @pet.status.name %></p>
+  <p>
+    <strong>Last Seen: </strong><%= where_am_i_now(@pet) %>
+  </p>
+
+  <% unless @pet.status.name.downcase == "deceased" %>
+    <%= link_to 'Edit', edit_pet_path(@pet), class: "btn btn-default" %>
+  <% end %>
+  <%= link_to 'Back', pets_path, class: "btn btn-default" %>
+</div>
+
+<div class="container col-md-8">
+  <% unless @loc_array.empty? %>
+    <div id="sidebar_builder" style='height: 400px;'></div>
+    <div id='sidebar_container'></div>
+
+      <script type="text/javascript">
+
+        function createSidebarLi(json){
+          return ("<li><a>" + json.name + "</a></li>");
+        };
+
+        function bindLiToMarker($li, marker){
+          $li.on('click', function(){
+            // handler.getMap().setZoom(14);
+            handler.getMap();
+            marker.setMap(handler.getMap()); //because clusterer removes map property from marker
+            marker.panTo();
+            google.maps.event.trigger(marker.getServiceObject(), 'click');
+          })
+        };
+
+        function createSidebar(json_array){
+          _.each(json_array, function(json){
+            var $li = $( createSidebarLi(json) );
+            $li.appendTo('#sidebar_container');
+            bindLiToMarker($li, json.marker);
+          });
+        };
+
+        handler = Gmaps.build('Google');
+        handler.buildMap({ internal: {id: 'sidebar_builder'}}, function(){
+          var json_array = <%= @loc_array.to_json.html_safe %>
+          var markers = handler.addMarkers(json_array);
+
+          _.each(json_array, function(json, index){
+            json.marker = markers[index];
+          });
+
+          createSidebar(json_array);
+          handler.bounds.extendWith(markers);
+          handler.fitMapToBounds();
+        });
+      </script>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,46 @@
+<%= simple_form_for(@pet) do |f| %>
+  <div class="form-inputs">
+    <div class="row">
+      <div class="col-md-6"><%= f.input :first_name %></div>
+      <div class="col-md-6"><%= f.input :last_name, placeholder: "Optional" %></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"><%= f.input :birth_place, placeholder: "A complete address or City, Country" %></div>
+      <div class="col-md-6"><%= f.input :birth_date, as: :string, placeholder: "Let's celebrate" %></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :specie,
+                    collection: ["Bird", "Cat", "Dog", "Fish",
+                                 "Frog", "Monkey", "Rabbit",
+                                 "Snail", "Snake", "Turtle"],
+                    prompt: "Select pet type", selected: @pet.specie || "Bird"%>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :breed, placeholder: "Or a brief description" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.association :status, include_blank: false %>
+       </div>
+      <div class="col-md-6"><%= f.input :tracking_uid, placeholder: "The ID behind the tracker" %></div>
+    </div>
+  </div>
+
+  <div class="form-actions col-md-12">
+    <%= f.button :submit, data: {disable_with: "saving.."}  %>
+    <%= f.button :button, 'Cancel', { :type => 'reset', :class=>"btn btn-default" } %>
+    <%= link_to "Nevermind", pets_path, class: "btn btn-default" %>
+  </div>
+<% end %>
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#pet_birth_date').datepicker({
+            format: "MM dd, yyyy"
+        });
+
+    });
+</script>

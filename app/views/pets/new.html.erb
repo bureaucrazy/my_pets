@@ -1,0 +1,12 @@
+<h3 id="pet_header"></h3>
+
+<%= render 'form' %>
+
+<script type="text/javascript">
+    var text = "Tell us about ";
+    // When the document is ready
+    $(document).ready(function () {
+      $("#pet_header").html(text);
+      $("#pet_first_name").on("change", function(){ $("#pet_header").html(text + $("#pet_first_name").val())});
+    });
+</script>

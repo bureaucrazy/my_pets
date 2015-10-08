@@ -1,0 +1,36 @@
+// Place all the styles related to the pets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.pet_logo {
+  width: 250px;
+  height: 250px;
+}
+
+.letterP3 {
+  -webkit-transform: rotate(90deg);
+     -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+       -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+            color: #000;
+            font-size: 22px;
+            height: 200px;
+            width: 200px;
+float: left;
+    vertical-align:top;
+}
+
+.letterP4 {
+  -webkit-transform: rotate(-90deg);
+     -moz-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+       -o-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+            color: #000;
+            font-size: 22px;
+            height: 200px;
+            width: 200px;
+    float: left;
+    vertical-align:top;
+}
